@@ -20,8 +20,11 @@ deps() {
   # sudo apt install php-xml
 }
 
+export IMAGEBIN_UPLOAD_DIR="$PWD/_tmp/uploads"
+export IMAGEBIN_CACHE_DIR="$PWD/_tmp/cache"
 
 serve() {
+  mkdir -p $IMAGEBIN_UPLOAD_DIR $IMAGEBIN_CACHE_DIR
   php -S localhost:8991
 }
 

@@ -1,5 +1,8 @@
 <?php
 
+$upload_dir = getenv('IMAGEBIN_UPLOAD_DIR');
+$cache_dir = getenv('IMAGEBIN_CACHE_DIR');
+
 // Default header (for errors)
 header('content-type: text/html; charset=utf-8', true, 400);
 
@@ -34,6 +37,8 @@ default:
 // TODO: protect ovewrite with a timestamp?
 $dest = $filename;
 
+error_log('upload_dir = ' . $upload_dir);
+error_log('cache_dir = ' . $cache_dir);
 error_log('tmp_name = ' . $tmp_name);
 error_log('filename = ' . $filename);
 error_log('dest = ' . $dest);
