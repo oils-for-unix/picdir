@@ -7,8 +7,8 @@ header('content-type: text/html; charset=utf-8', true, 400);
 // Check form token
 session_start();
 /*
-if(isset($_POST['form_token']) 
-&& isset($_SESSION['form_token']) 
+if(isset($_POST['form_token'])
+&& isset($_SESSION['form_token'])
 && $_POST['form_token'] == $_SESSION['form_token'])
 {
         // Reset token
@@ -20,18 +20,19 @@ else
  */
 
 // Check if file was uploaded
-if( ! isset($_FILES['image']) || ! is_uploaded_file($_FILES['image']['tmp_name']))
-        exit('No file uploaded.');
+if (! isset($_FILES['image']) || ! is_uploaded_file($_FILES['image']['tmp_name'])) {
+    exit('No file uploaded.');
+}
 
 
 // And if it was ok
-if($_FILES['image']['error'] !== UPLOAD_ERR_OK)
-        exit('Upload failed. Error code: '.$_FILES['image']['error']);
+if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+    exit('Upload failed. Error code: '.$_FILES['image']['error']);
+}
 
 
 // Create image from file
-switch(strtolower($_FILES['image']['type']))
-{
+switch (strtolower($_FILES['image']['type'])) {
         case 'image/jpeg':
                 $image = imagecreatefromjpeg($_FILES['image']['tmp_name']);
                 break;
@@ -67,14 +68,23 @@ $new = imagecreatetruecolor($new_width, $new_height);
 
 
 // Resample old into new
-imagecopyresampled($new, $image, 
-        0, 0, 0, 0, 
-        $new_width, $new_height, $old_width, $old_height);
+imagecopyresampled(
+    $new,
+    $image,
+    0,
+    0,
+    0,
+    0,
+    $new_width,
+    $new_height,
+    $old_width,
+    $old_height
+);
 
 
 // Catch the image data
 ob_start();
-imagejpeg($new, NULL, 90);
+imagejpeg($new, null, 90);
 $data = ob_get_clean();
 
 
@@ -86,4 +96,3 @@ imagedestroy($new);
 // Output image data
 header("Content-type: image/jpeg", true, 200);
 echo $data;
-

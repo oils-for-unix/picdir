@@ -32,9 +32,26 @@ deploy() {
   scp upload.php index.html $host:$dir
 }
 
-install-composer() {
-  echo TODO
 
+# https://getcomposer.org/download/
+install-composer() {
+  wget https://getcomposer.org/installer
+  php installer
+}
+
+# it automatically installs here
+composer() {
+  ./composer.phar "$@"
+}
+
+# https://github.com/FriendsOfPHP/PHP-CS-Fixer
+install-fixer() {
+  mkdir --parents tools/php-cs-fixer
+  composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
+}
+
+fixer() {
+  tools/php-cs-fixer/vendor/bin/php-cs-fixer "$@"
 }
 
 "$@"
