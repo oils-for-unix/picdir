@@ -20,7 +20,7 @@ deps() {
   # sudo apt install php-xml
 }
 
-export IMAGEBIN_UPLOAD_DIR="$PWD/_tmp/uploads"
+export IMAGEBIN_UPLOAD_DIR="$PWD/_tmp/upload"
 export IMAGEBIN_CACHE_DIR="$PWD/_tmp/cache"
 
 serve() {
@@ -37,6 +37,11 @@ deploy() {
   ssh $host mkdir -v -p $dir
 
   scp imagebin.php index.html $host:$dir
+}
+
+unit-tests() {
+  # This is stupid, Ubuntu has it off by default
+  php -d 'zend.assertions=1' config_test.php
 }
 
 lint() {

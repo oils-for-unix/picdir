@@ -1,7 +1,11 @@
 <?php
 // upload.php
 //
-// Upload an image as 2020-12-26-${RANDOM}__${ORIGINAL_NAME}.jpg
+// Upload an image and save it like 2020-12-26-${RANDOM}__$[sanitize(ORIG)].jpg
+//
+// TODO:
+// - Support ?response=json with {"serving_at": "/picdir/2020-20-abc-foo.jpg"}
+//   e.g. for JS clients.
 
 include('config.php');
 
@@ -9,20 +13,25 @@ include('config.php');
 header('content-type: text/html; charset=utf-8', true, 400);
 
 // Check if file was uploaded
-if (! isset($_FILES['image']) || ! is_uploaded_file($_FILES['image']['tmp_name'])) {
-  exit('No file uploaded.');
-}
-
-// And if it was ok
-if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-  exit('Upload failed. Error code: '.$_FILES['image']['error']);
+if (! isset($_FILES['image'])) {
+  exit('Expected image=');
 }
 
 $tmp_name = $_FILES['image']['tmp_name'];
+if (! is_uploaded_file($tmp_name)) {
+  exit('Expected image= to be a file');
+}
+
+$error = $_FILES['image']['error'] ;
+if ($error !== UPLOAD_ERR_OK) {
+  exit('Upload failed with error ' . $error);
+}
+
 $filename = $_FILES['image']['name'];
+$file_type = strtolower($_FILES['image']['type']);
 
 // Create image from file
-switch (strtolower($_FILES['image']['type'])) {
+switch ($file_type) {
 case 'image/jpeg':
   $image = imagecreatefromjpeg($tmp_name);
   break;
@@ -33,17 +42,17 @@ case 'image/gif':
   $image = imagecreatefromgif($tmp_name);
   break;
 default:
-  exit('Unsupported type: '.$_FILES['image']['type']);
+  exit('Unsupported file type '. $file_type);
 }
 
-// TODO: protect ovewrite with a timestamp?
-$dest = $filename;
+$dest = $upload_dir . '/' . unique_id() . '__' . sanitize($filename);
 
 error_log('upload_dir = ' . $upload_dir);
 error_log('cache_dir = ' . $cache_dir);
 error_log('tmp_name = ' . $tmp_name);
 error_log('filename = ' . $filename);
 error_log('dest = ' . $dest);
+error_log('sanitized = ' . sanitize($filename));
 
 move_uploaded_file($tmp_name, $dest);
 
