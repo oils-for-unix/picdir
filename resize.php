@@ -1,4 +1,5 @@
 <?php
+include('config.php');
 
 // TODO:
 // 1. Check if the file exists in the data dir
