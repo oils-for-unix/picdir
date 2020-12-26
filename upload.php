@@ -1,4 +1,8 @@
 <?php
+// upload.php
+//
+// Upload an image as 2020-12-26-${RANDOM}__${ORIGINAL_NAME}.jpg
+
 include('config.php');
 
 // Default header (for errors)
