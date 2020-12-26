@@ -3,22 +3,6 @@
 // Default header (for errors)
 header('content-type: text/html; charset=utf-8', true, 400);
 
-
-// Check form token
-session_start();
-/*
-if(isset($_POST['form_token'])
-&& isset($_SESSION['form_token'])
-&& $_POST['form_token'] == $_SESSION['form_token'])
-{
-        // Reset token
-        $_SESSION = array();
-        session_destroy();
-}
-else
-        exit('Form expired. Reload form and try again.');
- */
-
 // Check if file was uploaded
 if (! isset($_FILES['image']) || ! is_uploaded_file($_FILES['image']['tmp_name'])) {
   exit('No file uploaded.');
@@ -44,8 +28,11 @@ default:
   exit('Unsupported type: '.$_FILES['image']['type']);
 }
 
+error_log('tmp_name = ' . $_FILES['image']['tmp_name']);
+
 // Delete original file
 @unlink($_FILES['image']['tmp_name']);
+
 
 // Target dimensions
 $max_width = 240;
