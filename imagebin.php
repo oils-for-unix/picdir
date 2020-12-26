@@ -14,6 +14,7 @@ if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
 }
 
 $tmp_name = $_FILES['image']['tmp_name'];
+$filename = $_FILES['image']['name'];
 
 // Create image from file
 switch (strtolower($_FILES['image']['type'])) {
@@ -30,10 +31,17 @@ default:
   exit('Unsupported type: '.$_FILES['image']['type']);
 }
 
+// TODO: protect ovewrite with a timestamp?
+$dest = $filename;
+
 error_log('tmp_name = ' . $tmp_name);
+error_log('filename = ' . $filename);
+error_log('dest = ' . $dest);
+
+move_uploaded_file($tmp_name, $dest);
 
 // Delete original file
-@unlink($tmp_name);
+// @unlink($tmp_name);
 
 // Target dimensions
 $max_width = 240;

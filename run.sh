@@ -33,9 +33,12 @@ deploy() {
 
   ssh $host mkdir -v -p $dir
 
-  scp upload.php index.html $host:$dir
+  scp imagebin.php index.html $host:$dir
 }
 
+lint() {
+  php -l *.php
+}
 
 # https://getcomposer.org/download/
 install-composer() {
