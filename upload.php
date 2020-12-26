@@ -13,26 +13,27 @@ if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
   exit('Upload failed. Error code: '.$_FILES['image']['error']);
 }
 
+$tmp_name = $_FILES['image']['tmp_name'];
+
 // Create image from file
 switch (strtolower($_FILES['image']['type'])) {
 case 'image/jpeg':
-  $image = imagecreatefromjpeg($_FILES['image']['tmp_name']);
+  $image = imagecreatefromjpeg($tmp_name);
   break;
 case 'image/png':
-  $image = imagecreatefrompng($_FILES['image']['tmp_name']);
+  $image = imagecreatefrompng($tmp_name);
   break;
 case 'image/gif':
-  $image = imagecreatefromgif($_FILES['image']['tmp_name']);
+  $image = imagecreatefromgif($tmp_name);
   break;
 default:
   exit('Unsupported type: '.$_FILES['image']['type']);
 }
 
-error_log('tmp_name = ' . $_FILES['image']['tmp_name']);
+error_log('tmp_name = ' . $tmp_name);
 
 // Delete original file
-@unlink($_FILES['image']['tmp_name']);
-
+@unlink($tmp_name);
 
 // Target dimensions
 $max_width = 240;
