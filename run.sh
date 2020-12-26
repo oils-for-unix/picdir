@@ -45,6 +45,9 @@ composer() {
 }
 
 # https://github.com/FriendsOfPHP/PHP-CS-Fixer
+
+# Hm this doesn't fix style.
+
 install-fixer() {
   mkdir --parents tools/php-cs-fixer
   composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
@@ -53,5 +56,18 @@ install-fixer() {
 fixer() {
   tools/php-cs-fixer/vendor/bin/php-cs-fixer "$@"
 }
+
+# DOES NOT WORK: Got an XML function error
+
+install-sniffer() {
+  mkdir -p tools/php_codesniffer
+  composer require --working-dir tools/php_codesniffer "squizlabs/php_codesniffer=*"
+}
+
+cbf() {
+  tools/php_codesniffer/vendor/bin/phpcbf "$@"
+}
+
+
 
 "$@"
