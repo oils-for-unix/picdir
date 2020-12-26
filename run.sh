@@ -15,10 +15,14 @@ set -o errexit
 # https://stackoverflow.com/questions/13338339/imagecreatefromjpeg-and-similar-functions-are-not-working-in-php
 deps() {
   sudo apt install php php-gd
+
+  # for php_codesniffer, weird.  Except that code sucks.
+  # sudo apt install php-xml
 }
 
+
 serve() {
-  php -S localhost:8001
+  php -S localhost:8991
 }
 
 deploy() {
@@ -57,8 +61,7 @@ fixer() {
   tools/php-cs-fixer/vendor/bin/php-cs-fixer "$@"
 }
 
-# DOES NOT WORK: Got an XML function error
-
+# requires php-xml package
 install-sniffer() {
   mkdir -p tools/php_codesniffer
   composer require --working-dir tools/php_codesniffer "squizlabs/php_codesniffer=*"
@@ -67,7 +70,5 @@ install-sniffer() {
 cbf() {
   tools/php_codesniffer/vendor/bin/phpcbf "$@"
 }
-
-
 
 "$@"
