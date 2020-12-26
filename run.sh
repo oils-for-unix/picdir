@@ -22,7 +22,19 @@ serve() {
 }
 
 deploy() {
+  local name=$1
+
+  local host=$name@$name.org
+  local dir=$name.org/imagebin/
+
+  ssh $host mkdir -v -p $dir
+
+  scp upload.php index.html $host:$dir
+}
+
+install-composer() {
   echo TODO
+
 }
 
 "$@"
