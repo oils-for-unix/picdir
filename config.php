@@ -3,8 +3,15 @@
 // dirs.
 
 // TODO: Assert that they're both relative?
-$upload_dir = getenv('IMAGEBIN_UPLOAD_DIR');
-$cache_dir = getenv('IMAGEBIN_CACHE_DIR');
+$upload_dir = getenv('PICDIR_UPLOAD_DIR');
+if ($upload_dir === false) {
+  $upload_dir = 'upload';
+}
+
+$cache_dir = getenv('PICDIR_CACHE_DIR');
+if ($cache_dir === false) {
+  $cache_dir = 'cache';
+}
 
 // TODO: Password here to avoid DoS with disk space, or do it on the server
 // level?

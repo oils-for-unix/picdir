@@ -20,8 +20,8 @@ deps() {
   # sudo apt install php-xml
 }
 
-export IMAGEBIN_UPLOAD_DIR="_upload"
-export IMAGEBIN_CACHE_DIR="_cache"
+export PICDIR_UPLOAD_DIR="_upload"
+export PICDIR_CACHE_DIR="_cache"
 
 serve() {
   mkdir -p $IMAGEBIN_UPLOAD_DIR $IMAGEBIN_CACHE_DIR
@@ -32,11 +32,12 @@ deploy() {
   local name=$1
 
   local host=$name@$name.org
-  local dir=$name.org/imagebin/
+  local dir=$name.org/picdir
 
-  ssh $host mkdir -v -p $dir
+  # Matches default in config.php
+  ssh $host mkdir -v -p $dir/{upload,cache}
 
-  scp imagebin.php index.html $host:$dir
+  scp *.php *.css index.html $host:$dir
 }
 
 unit-tests() {

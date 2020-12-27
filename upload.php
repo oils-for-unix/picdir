@@ -24,7 +24,7 @@ if (! is_uploaded_file($tmp_name)) {
 
 $error = $_FILES['image']['error'] ;
 if ($error !== UPLOAD_ERR_OK) {
-  exit('Upload failed with error ' . $error);
+  exit("Upload failed with error $error");
 }
 
 $filename = $_FILES['image']['name'];
@@ -42,12 +42,12 @@ case 'image/gif':
   $image = imagecreatefromgif($tmp_name);
   break;
 default:
-  exit('Unsupported file type '. $file_type);
+  exit("Unsupported file type $file_type");
 }
 
 // Safe for HTML
 $new_filename = unique_id() . '__' . sanitize($filename);
-$upload_path  = $upload_dir . '/' . $new_filename;
+$upload_path  = "$upload_dir/$new_filename";
 
 error_log('upload_dir = ' . $upload_dir);
 error_log('cache_dir = ' . $cache_dir);
