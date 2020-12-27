@@ -27,7 +27,7 @@ header('content-type: text/html; charset=utf-8', true, 400);
 // name= params from upload.php will already be sanitized, but we must sanitize
 // it again.
 $name = sanitize($_GET['name']);
-$maxwidth = $_GET['maxwidth'];
+$max_width = $_GET['max-width'];
 
 error_log("name = " . $name . "\n");
 
@@ -35,55 +35,53 @@ if (! isset($name)) {
   exit("Expected name= param\n");
 }
 
-if (! isset($maxwidth)) {
-  $to_url = $upload_dir . '/' . $name;
-	header('Location: ' . $to_url);
-	exit();
+$orig_path = "$upload_dir/$name";
+
+if (! isset($max_width)) {
+  // relative path is the URL
+  header('Location: ' . $orig_path);
+  exit();
 }
 
-header('Location: ' . sanitize($name));
-exit();
+// TODO: Accept .gif, .png or .jpg|.jpeg extensions
+$image = imagecreatefromjpeg($orig_path);
+if ($image === false) {
+  exit('Invalid image');
+}
 
-echo '<pre>';
+$orig_width = imagesx($image);
+$orig_height = imagesy($image);
 
+if ($orig_width <= $max_width) {
+  // relative path is the URL
+  header('Location: ' . $orig_path);
+  exit();
+}
 
-echo "name = " . $name . "\n";
-echo "width = " . $width . "\n";
-echo "height  = " . $height . "\n";
+$scale = $max_width / $orig_width;
 
-echo '</pre>';
-
-
-// Delete original file
-// @unlink($tmp_name);
-
-// Target dimensions
-$max_width = 240;
-$max_height = 180;
-
-// Calculate new dimensions
-$old_width      = imagesx($image);
-$old_height     = imagesy($image);
-$scale          = min($max_width/$old_width, $max_height/$old_height);
-$new_width      = ceil($scale*$old_width);
-$new_height     = ceil($scale*$old_height);
+$new_width = ceil($scale * $orig_width);
+$new_height = ceil($scale * $orig_height);
 
 // Create new empty image
 $new = imagecreatetruecolor($new_width, $new_height);
 
 // Resample old into new
+
+// TODO:
+// - Respect EXIF orientation data.
+// - Cache this computation.
+
 imagecopyresampled(
   $new,
   $image,
-  0,
-  0,
-  0,
-  0,
-  $new_width,
-  $new_height,
-  $old_width,
-  $old_height
+  0, 0,  // dest x, y
+  0, 0,  // src x, y
+  $new_width, $new_height,
+  $orig_width, $orig_height
 );
+
+error_log("$orig_width x $orig_height -> $new_width x $new_height");
 
 // Catch the image data
 ob_start();
@@ -101,6 +99,4 @@ header("Content-type: image/jpeg", true, 200);
 echo $data;
 
 ?>
-
-
 

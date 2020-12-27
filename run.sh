@@ -24,7 +24,7 @@ export PICDIR_UPLOAD_DIR="_upload"
 export PICDIR_CACHE_DIR="_cache"
 
 serve() {
-  mkdir -p $IMAGEBIN_UPLOAD_DIR $IMAGEBIN_CACHE_DIR
+  mkdir -p $PICDIR_UPLOAD_DIR $PICDIR_CACHE_DIR
   php -S localhost:8991
 }
 

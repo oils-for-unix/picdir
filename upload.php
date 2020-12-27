@@ -58,24 +58,35 @@ error_log('sanitized = ' . sanitize($filename));
 
 move_uploaded_file($tmp_name, $upload_path );
 
-$example = "resize.php?name=$new_filename&maxwidth=600";
+$example = "resize.php?name=$new_filename&max-width=600";
 $example2 = "resize.php?name=$new_filename";
 
 header("Content-type: text/html", $replace = true, 200);
 
 include('header.php');
 
-echo "<h1>Uploaded</h1>";
+// TODO: Show image size, etc.
+echo <<<EOF
 
-echo "Original: <a href=\"$upload_path\">$upload_path</a> <br/>\n";
+<h1>picdir</h1>
 
-echo "Resize with a URL like this: <a href=\"$example\">$example</a> <br/>\n";
+<p>Image saved!</p>
 
-echo "Plain: <a href=\"$example2\">$example2</a> <br/>\n";
-?>
+<h2>Original</h2>
 
+<code><a href="$upload_path">$upload_path</a></code>
+
+<h2>Resize it with a URL like this</h2>
+
+<code><a href="$example">$example</a></code>
+
+<!--
 <p>
-  hello there
-</p>
+Plain: <code><a href="$example2">$example2</a></code>
+-->
 
-<?php include('footer.php'); ?>
+EOF;
+
+include('footer.php');
+
+?>

@@ -1,6 +1,20 @@
- body {
-   width: 40em;
-   margin: 0 auto;
-   font-size: large;
-   font-family: sans-serif;
- }
+body {
+  width: 40em;
+  margin: 0 auto;
+  font-size: large;
+  font-family: sans-serif;
+}
+
+/* Remove underline */
+a:link {
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:active {
+  text-decoration: underline;
+}
