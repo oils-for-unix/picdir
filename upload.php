@@ -45,59 +45,37 @@ default:
   exit('Unsupported file type '. $file_type);
 }
 
-$dest = $upload_dir . '/' . unique_id() . '__' . sanitize($filename);
+// Safe for HTML
+$new_filename = unique_id() . '__' . sanitize($filename);
+$upload_path  = $upload_dir . '/' . $new_filename;
 
 error_log('upload_dir = ' . $upload_dir);
 error_log('cache_dir = ' . $cache_dir);
 error_log('tmp_name = ' . $tmp_name);
 error_log('filename = ' . $filename);
-error_log('dest = ' . $dest);
+error_log('upload_path  = ' . $upload_path );
 error_log('sanitized = ' . sanitize($filename));
 
-move_uploaded_file($tmp_name, $dest);
+move_uploaded_file($tmp_name, $upload_path );
 
-// Delete original file
-// @unlink($tmp_name);
+$example = "resize.php?name=$new_filename&maxwidth=600";
+$example2 = "resize.php?name=$new_filename";
 
-// Target dimensions
-$max_width = 240;
-$max_height = 180;
+header("Content-type: text/html", $replace = true, 200);
 
-// Calculate new dimensions
-$old_width      = imagesx($image);
-$old_height     = imagesy($image);
-$scale          = min($max_width/$old_width, $max_height/$old_height);
-$new_width      = ceil($scale*$old_width);
-$new_height     = ceil($scale*$old_height);
+include('header.php');
 
-// Create new empty image
-$new = imagecreatetruecolor($new_width, $new_height);
+echo "<h1>Uploaded</h1>";
 
-// Resample old into new
-imagecopyresampled(
-  $new,
-  $image,
-  0,
-  0,
-  0,
-  0,
-  $new_width,
-  $new_height,
-  $old_width,
-  $old_height
-);
+echo "Original: <a href=\"$upload_path\">$upload_path</a> <br/>\n";
 
-// Catch the image data
-ob_start();
+echo "Resize with a URL like this: <a href=\"$example\">$example</a> <br/>\n";
 
-// TODO: Use imagepng() and imagegif()
-imagejpeg($new, null, 90);
-$data = ob_get_clean();
+echo "Plain: <a href=\"$example2\">$example2</a> <br/>\n";
+?>
 
-// Destroy resources
-imagedestroy($image);
-imagedestroy($new);
+<p>
+  hello there
+</p>
 
-// Output image data
-header("Content-type: image/jpeg", true, 200);
-echo $data;
+<?php include('footer.php'); ?>

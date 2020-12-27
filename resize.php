@@ -24,9 +24,10 @@ header('content-type: text/html; charset=utf-8', true, 400);
 //
 // The web server has to be configured to serve it.
 
-$name = $_GET['name'];
-$width = $_GET['w'];
-$height = $_GET['h'];
+// name= params from upload.php will already be sanitized, but we must sanitize
+// it again.
+$name = sanitize($_GET['name']);
+$maxwidth = $_GET['maxwidth'];
 
 error_log("name = " . $name . "\n");
 
@@ -34,7 +35,13 @@ if (! isset($name)) {
   exit("Expected name= param\n");
 }
 
-header('Location: ' . $name);
+if (! isset($maxwidth)) {
+  $to_url = $upload_dir . '/' . $name;
+	header('Location: ' . $to_url);
+	exit();
+}
+
+header('Location: ' . sanitize($name));
 exit();
 
 echo '<pre>';
@@ -45,6 +52,53 @@ echo "width = " . $width . "\n";
 echo "height  = " . $height . "\n";
 
 echo '</pre>';
+
+
+// Delete original file
+// @unlink($tmp_name);
+
+// Target dimensions
+$max_width = 240;
+$max_height = 180;
+
+// Calculate new dimensions
+$old_width      = imagesx($image);
+$old_height     = imagesy($image);
+$scale          = min($max_width/$old_width, $max_height/$old_height);
+$new_width      = ceil($scale*$old_width);
+$new_height     = ceil($scale*$old_height);
+
+// Create new empty image
+$new = imagecreatetruecolor($new_width, $new_height);
+
+// Resample old into new
+imagecopyresampled(
+  $new,
+  $image,
+  0,
+  0,
+  0,
+  0,
+  $new_width,
+  $new_height,
+  $old_width,
+  $old_height
+);
+
+// Catch the image data
+ob_start();
+
+// TODO: Use imagepng() and imagegif()
+imagejpeg($new, null, 90);
+$data = ob_get_clean();
+
+// Destroy resources
+imagedestroy($image);
+imagedestroy($new);
+
+// Output image data
+header("Content-type: image/jpeg", true, 200);
+echo $data;
 
 ?>
 

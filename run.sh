@@ -20,8 +20,8 @@ deps() {
   # sudo apt install php-xml
 }
 
-export IMAGEBIN_UPLOAD_DIR="$PWD/_tmp/upload"
-export IMAGEBIN_CACHE_DIR="$PWD/_tmp/cache"
+export IMAGEBIN_UPLOAD_DIR="_upload"
+export IMAGEBIN_CACHE_DIR="_cache"
 
 serve() {
   mkdir -p $IMAGEBIN_UPLOAD_DIR $IMAGEBIN_CACHE_DIR
@@ -45,7 +45,9 @@ unit-tests() {
 }
 
 lint() {
-  php -l *.php
+  for file in *.php; do
+    php -l "$file"
+  done
 }
 
 # https://getcomposer.org/download/
