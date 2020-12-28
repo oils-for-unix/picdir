@@ -37,7 +37,7 @@ deploy() {
   # Matches default in config.php
   ssh $host mkdir -v -p $dir/{upload,cache}
 
-  scp *.php *.css index.html $host:$dir
+  scp *.php *.css $host:$dir
 }
 
 unit-tests() {

@@ -68,7 +68,7 @@ include('header.php');
 // TODO: Show image size, etc.
 echo <<<EOF
 
-<h1>picdir</h1>
+<h1><a href=".">picdir</a></h1>
 
 <p>Image saved!</p>
 

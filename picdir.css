@@ -1,6 +1,14 @@
+@media screen and (min-width: 801px) {
+  body {
+    width: 40em;
+    margin: 0 auto;
+  }
+}
+
 body {
-  width: 40em;
-  margin: 0 auto;
+  /* mobile: distance from left/right edge */
+  padding: 0 1em;
+
   font-size: large;
   font-family: sans-serif;
 }
@@ -17,4 +25,14 @@ a:hover {
 }
 a:active {
   text-decoration: underline;
+}
+
+/* Somehow body {} doesn't do this */
+input {
+  font-size: large;
+  padding: 0.5em;  /* for upload button */
+}
+
+td {
+  padding: 0.5em;
 }
