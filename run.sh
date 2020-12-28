@@ -93,13 +93,21 @@ dreamhost-latency() {
   local name=$1
 
   set -x
+  # PHP
   time curl http://$name.org/picdir/hello.php
 
+  # PHP with image from file system
+  time curl -o /tmp/foo.jpg \
+    'http://chubot.org/picdir/resize.php?name=z6wh1m__IMG-5786.jpg&max-width=400'
+
+  # Fast CGI
   time curl http://$name.org/wwz-test/test.wwz/b.txt
 
+  # static file
   time curl http://$name.org/wwz-test/b.txt
 
-  time curl http://www.oilshell.org/
+  # Different domain
+  time curl http://www.oilshell.org/ | wc -l
 }
 
 "$@"

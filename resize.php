@@ -29,7 +29,7 @@ header('content-type: text/html; charset=utf-8', true, 400);
 $name = sanitize($_GET['name']);
 $max_width = $_GET['max-width'];
 
-error_log("name = " . $name . "\n");
+error_log("resize.php $name");
 
 if (! isset($name)) {
   exit("Expected name= param\n");
@@ -95,10 +95,11 @@ if (!file_exists($cache_path)) {
 
   rename($tmp_path, $cache_path);
 } else {
-  error_log("Using $cache_path");
+  error_log("resize.php using $cache_path");
 }
 
 header("Content-type: image/jpeg", true, 200);
 readfile($cache_path);  // write the whole file out
 
+error_log("resize.php Done");
 ?>
