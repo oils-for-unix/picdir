@@ -85,4 +85,21 @@ cbf() {
   tools/php_codesniffer/vendor/bin/phpcbf "$@"
 }
 
+#
+# Production Tests
+#
+
+dreamhost-latency() {
+  local name=$1
+
+  set -x
+  time curl http://$name.org/picdir/hello.php
+
+  time curl http://$name.org/wwz-test/test.wwz/b.txt
+
+  time curl http://$name.org/wwz-test/b.txt
+
+  time curl http://www.oilshell.org/
+}
+
 "$@"

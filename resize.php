@@ -58,45 +58,47 @@ if ($orig_width <= $max_width) {
   exit();
 }
 
-$scale = $max_width / $orig_width;
+$cache_path = "$cache_dir/w{$max_width}__$name";
 
-$new_width = ceil($scale * $orig_width);
-$new_height = ceil($scale * $orig_height);
+if (!file_exists($cache_path)) {
+  $scale = $max_width / $orig_width;
 
-// Create new empty image
-$new = imagecreatetruecolor($new_width, $new_height);
+  $new_width = ceil($scale * $orig_width);
+  $new_height = ceil($scale * $orig_height);
 
-// Resample old into new
+  // Create new empty image
+  $resized = imagecreatetruecolor($new_width, $new_height);
 
-// TODO:
-// - Respect EXIF orientation data.
-// - Cache this computation.
+  // Resample old into new
 
-imagecopyresampled(
-  $new,
-  $image,
-  0, 0,  // dest x, y
-  0, 0,  // src x, y
-  $new_width, $new_height,
-  $orig_width, $orig_height
-);
+  // TODO:
+  // - Respect EXIF orientation data.
 
-error_log("$orig_width x $orig_height -> $new_width x $new_height");
+  imagecopyresampled(
+    $resized,
+    $image,
+    0, 0,  // dest x, y
+    0, 0,  // src x, y
+    $new_width, $new_height,
+    $orig_width, $orig_height
+  );
 
-// Catch the image data
-ob_start();
+  error_log("$orig_width x $orig_height -> $new_width x $new_height");
+  error_log("cache path = $cache_path");
 
-// TODO: Use imagepng() and imagegif()
-imagejpeg($new, null, 90);
-$data = ob_get_clean();
+  // need a temp path in case two requests are resizing the same file
+  $tmp_path = tempnam(".", "resized");
+  $f = fopen($tmp_path, "w");
+  // error_log("f = $f");
+  imagejpeg($resized, $f, 90);
+  fclose($f);
 
-// Destroy resources
-imagedestroy($image);
-imagedestroy($new);
+  rename($tmp_path, $cache_path);
+} else {
+  error_log("Using $cache_path");
+}
 
-// Output image data
 header("Content-type: image/jpeg", true, 200);
-echo $data;
+readfile($cache_path);  // write the whole file out
 
 ?>
-
