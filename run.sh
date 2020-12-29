@@ -21,10 +21,10 @@ deps() {
 }
 
 export PICDIR_UPLOAD_DIR="_upload"
-export PICDIR_CACHE_DIR="_cache"
+export PICDIR_RESIZED_DIR="_cache"
 
 serve() {
-  mkdir -p $PICDIR_UPLOAD_DIR $PICDIR_CACHE_DIR
+  mkdir -p $PICDIR_UPLOAD_DIR $PICDIR_RESIZED_DIR
   php -S localhost:8991
 }
 
@@ -35,7 +35,7 @@ deploy() {
   local dir=$name.org/picdir
 
   # Matches default in config.php
-  ssh $host mkdir -v -p $dir/{upload,cache}
+  ssh $host mkdir -v -p $dir/{upload,resized}
 
   scp *.php *.css $host:$dir
 }

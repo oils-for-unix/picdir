@@ -3,12 +3,11 @@
 //
 // Accept requests like:
 //
-//   resize.php?name=2020-12-26-${RANDOM}__${ORIGINAL_NAME}.jpg&w=600
+//   picdir/resize.php?name=i6ac90__myfile.jpg&w=400
 //
-// And then redirect to:
-//   imagebin/data/w600__2020-12-26-${RANDOM}__${ORIGINAL_NAME}.jpg
+// And then redirect to a static file, rendering it if necessary:
 //
-// I think we only care about the height for now.
+//   picdir/resized/w600__i6ac90_myfile.jpg
 
 include('config.php');
 
@@ -17,9 +16,9 @@ header('content-type: text/html; charset=utf-8', true, 400);
 
 // TODO:
 // 1. Check if the file exists in the data dir
-// 2. Check if the resized version already exists in the cache dir
+// 2. Check if the resized version already exists in the resized dir
 //    If not, create it.
-// 3. 301 Permanent Redirect to the cached version
+// 3. 301 Permanent Redirect to the resized version
 //    https://www.seoclarity.net/resources/knowledgebase/use-301-redirect-vs-302-redirect-15683/
 //
 // The web server has to be configured to serve it.
@@ -58,9 +57,9 @@ if ($orig_width <= $max_width) {
   exit();
 }
 
-$cache_path = "$cache_dir/w{$max_width}__$name";
+$resized_path = "$resized_dir/w{$max_width}__$name";
 
-if (!file_exists($cache_path)) {
+if (!file_exists($resized_path)) {
   $scale = $max_width / $orig_width;
 
   $new_width = ceil($scale * $orig_width);
@@ -84,7 +83,7 @@ if (!file_exists($cache_path)) {
   );
 
   error_log("$orig_width x $orig_height -> $new_width x $new_height");
-  error_log("cache path = $cache_path");
+  error_log("resized path = $resized_path");
 
   // need a temp path in case two requests are resizing the same file
   $tmp_path = tempnam(".", "resized");
@@ -93,13 +92,13 @@ if (!file_exists($cache_path)) {
   imagejpeg($resized, $f, 90);
   fclose($f);
 
-  rename($tmp_path, $cache_path);
+  chmod($tmp_path, 0644);  // make the file servable
+  rename($tmp_path, $resized_path);
 } else {
-  error_log("resize.php using $cache_path");
+  error_log("resize.php using $resized_path");
 }
 
-header("Content-type: image/jpeg", true, 200);
-readfile($cache_path);  // write the whole file out
+header('Location: ' . $resized_path);
 
 error_log("resize.php Done");
 ?>

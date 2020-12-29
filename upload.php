@@ -1,11 +1,13 @@
 <?php
 // upload.php
 //
-// Upload an image and save it like 2020-12-26-${RANDOM}__$[sanitize(ORIG)].jpg
+// Upload an image and save it to
+//
+//   picdir/upload/${unique_id}__$[sanitize(ORIG)].jpg
 //
 // TODO:
 // - Support ?response=json with {"serving_at": "/picdir/2020-20-abc-foo.jpg"}
-//   e.g. for JS clients.
+//   Or the HTML can just have some "microdata"?
 
 include('config.php');
 
@@ -50,7 +52,7 @@ $new_filename = unique_id() . '__' . sanitize($filename);
 $upload_path  = "$upload_dir/$new_filename";
 
 error_log('upload_dir = ' . $upload_dir);
-error_log('cache_dir = ' . $cache_dir);
+error_log('resized_dir = ' . $resized_dir);
 error_log('tmp_name = ' . $tmp_name);
 error_log('filename = ' . $filename);
 error_log('upload_path  = ' . $upload_path );

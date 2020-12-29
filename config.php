@@ -8,9 +8,9 @@ if ($upload_dir === false) {
   $upload_dir = 'upload';
 }
 
-$cache_dir = getenv('PICDIR_CACHE_DIR');
-if ($cache_dir === false) {
-  $cache_dir = 'cache';
+$resized_dir = getenv('PICDIR_RESIZED_DIR');
+if ($resized_dir === false) {
+  $resized_dir = 'resized';
 }
 
 // TODO: Password here to avoid DoS with disk space, or do it on the server
