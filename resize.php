@@ -42,10 +42,35 @@ if (! isset($max_width)) {
   exit();
 }
 
-// TODO: Accept .gif, .png or .jpg|.jpeg extensions
-$image = imagecreatefromjpeg($orig_path);
+$ext = strtolower(pathinfo($orig_path, PATHINFO_EXTENSION));
+switch ($ext) {
+case "jpg":
+case "jpeg":
+  $image = imagecreatefromjpeg($orig_path);
+  break;
+case "png":
+  $image = imagecreatefrompng($orig_path);
+  break;
+default:
+  exit("Invalid filename $orig_path");
+}
+
 if ($image === false) {
   exit('Invalid image');
+}
+
+$exif = exif_read_data($orig_path);
+$orientation = $exif['Orientation'];
+switch ($orientation) {
+  case 3:
+    $image = imagerotate($image, 180, 0);
+    break;
+  case 6:
+    $image = imagerotate($image, -90, 0);
+    break;
+  case 8:
+    $image = imagerotate($image, 90, 0);
+    break;
 }
 
 $orig_width = imagesx($image);

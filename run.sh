@@ -21,7 +21,7 @@ deps() {
 }
 
 export PICDIR_UPLOAD_DIR="_upload"
-export PICDIR_RESIZED_DIR="_cache"
+export PICDIR_RESIZED_DIR="_resized"
 
 serve() {
   mkdir -p $PICDIR_UPLOAD_DIR $PICDIR_RESIZED_DIR
@@ -75,6 +75,13 @@ fixer() {
   tools/php-cs-fixer/vendor/bin/php-cs-fixer "$@"
 }
 
+# This gives you 4 space indents, not good
+fix-all() {
+  for name in *.php; do
+    fixer fix $name
+  done
+}
+
 # requires php-xml package
 install-sniffer() {
   mkdir -p tools/php_codesniffer
@@ -83,6 +90,13 @@ install-sniffer() {
 
 cbf() {
   tools/php_codesniffer/vendor/bin/phpcbf "$@"
+}
+
+# Also does stuff I don't want
+cbf-all() {
+  for name in *.php; do
+    cbf $name
+  done
 }
 
 #

@@ -30,38 +30,17 @@ if ($error !== UPLOAD_ERR_OK) {
 }
 
 $filename = $_FILES['image']['name'];
-$file_type = strtolower($_FILES['image']['type']);
-
-// Create image from file
-switch ($file_type) {
-case 'image/jpeg':
-  $image = imagecreatefromjpeg($tmp_name);
-  break;
-case 'image/png':
-  $image = imagecreatefrompng($tmp_name);
-  break;
-case 'image/gif':
-  $image = imagecreatefromgif($tmp_name);
-  break;
-default:
-  exit("Unsupported file type $file_type");
-}
 
 // Safe for HTML
 $new_filename = unique_id() . '__' . sanitize($filename);
 $upload_path  = "$upload_dir/$new_filename";
 
-error_log('upload_dir = ' . $upload_dir);
-error_log('resized_dir = ' . $resized_dir);
-error_log('tmp_name = ' . $tmp_name);
-error_log('filename = ' . $filename);
-error_log('upload_path  = ' . $upload_path );
-error_log('sanitized = ' . sanitize($filename));
+error_log("$tmp_name -> $upload_path");
 
 move_uploaded_file($tmp_name, $upload_path );
 
 $example = "resize.php?name=$new_filename&max-width=600";
-$example2 = "resize.php?name=$new_filename";
+// $example2 = "resize.php?name=$new_filename";
 
 header("Content-type: text/html", $replace = true, 200);
 

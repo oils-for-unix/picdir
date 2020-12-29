@@ -12,10 +12,16 @@ A small program that receives upload images and allows resizing at serving time.
 ## Ideas
 
 - `fetch.php`: Fetch image with curl?
-- `recent.php`: List recent images
+- `all.php`: List all images, instead of just recent ones.
 - Configure Dreamhost send mails from picdir@oilshell.org to this script too?
   - Will it respond with a URL?
   - Or maybe you can view "recently mailed"?
-- Create a gallery?  What if you e-mail many pictures?
-- JavaScript drag and drop
-  - What about multiple images?
+  - Or use a free tier of an API?
+- Support multiple uploads on a page, or many in an e-mail?
+
+
+## Links
+
+- JavaScript drag and drop.  This would be nice but looks complex, a lot of
+  code:
+  - <https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/>

@@ -29,8 +29,6 @@ echo <<<EOF
 
 EOF;
 
-
-
 # https://stackoverflow.com/questions/11923235/scandir-to-sort-by-date-modified
 
 function scan_dir($dir) {
@@ -50,7 +48,14 @@ function scan_dir($dir) {
 
 $i = 0;
 foreach (scan_dir($upload_dir) as $file) {
-  echo "<p> <img src=\"resize.php?name=$file&max-width=400\"> ";  // sanitized on the file system
+  // sanitized on the file system
+  $url = "resize.php?name=$file&max-width=400";
+  echo <<<EOF
+<p> 
+  <code> <a href="$url">$file</a> </code> <br/>
+  <img src="$url">
+</p>
+EOF;
 
   $i++;
   if ($i === 10) {
