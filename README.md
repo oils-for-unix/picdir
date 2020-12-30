@@ -4,6 +4,8 @@ picdir
 A simple web service that allows you to upload an image and then link to a
 dynamically-resized version of it.
 
+It's a useful tool for self-hosted blogs and documentation.
+
 ## Configuration
 
 - If the file `password` exists, it should contain a password hashed with PHP's
@@ -40,4 +42,6 @@ dynamically-resized version of it.
 - JavaScript drag and drop.  This would be nice but looks complex, a lot of
   code:
   - <https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/>
+- [CImage and img.php](https://cimage.se/): *server-side resize, crop and
+  processing of images using PHP GD*.
 
