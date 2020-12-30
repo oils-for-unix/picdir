@@ -9,7 +9,7 @@
 // - Support ?response=json with {"serving_at": "/picdir/2020-20-abc-foo.jpg"}
 //   Or the HTML can just have some "microdata"?
 
-include('config.php');
+include('lib.php');
 
 if ($HASHED_PASSWORD) {
   if (!password_verify($_POST['password'], $HASHED_PASSWORD)) {
@@ -53,7 +53,7 @@ $example = "resize.php?name=$new_filename&max-width=600";
 
 header("Content-type: text/html", $replace = true, 200);
 
-include('header.php');
+html_header();
 
 // TODO: Show image size, etc.
 echo <<<EOF
@@ -77,6 +77,6 @@ Plain: <code><a href="$example2">$example2</a></code>
 
 EOF;
 
-include('footer.php');
+html_footer();
 
 ?>

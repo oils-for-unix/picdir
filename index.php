@@ -1,7 +1,7 @@
 <?php
-include('config.php');
+include('lib.php');
 
-include('header.php');
+html_header();
 
 echo <<<EOF
 <h1>picdir</h1>
@@ -72,6 +72,6 @@ EOF;
 
 # And then <img src="resize.php?name=$name&max-width=100"> for small thumbnails
 
-include('footer.php');
+html_footer();
 ?>
 

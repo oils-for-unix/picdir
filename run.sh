@@ -55,7 +55,9 @@ deploy() {
 
 unit-tests() {
   # This is stupid, Ubuntu has it off by default
-  php -d 'zend.assertions=1' config_test.php
+  for file in *_test.php; do
+    php -d 'zend.assertions=1' $file
+  done
 }
 
 lint() {

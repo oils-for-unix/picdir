@@ -9,7 +9,7 @@
 //
 //   picdir/resized/w600__i6ac90_myfile.jpg
 
-include('config.php');
+include('lib.php');
 
 // Default header (for errors)
 header('content-type: text/html; charset=utf-8', true, 400);

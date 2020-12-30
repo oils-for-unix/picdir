@@ -39,4 +39,31 @@ function unique_id() {
   return base_convert(time() + rand(), 10, 36);
 }
 
+//
+// Templates
+//
+
+function html_header() {
+  echo <<<EOF
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>picdir</title>
+
+    <link rel="stylesheet" type="text/css" href="picdir.css" />
+  </head>
+  <body>
+
+EOF;
+}
+
+function html_footer() {
+  echo <<<EOF
+  </body>
+</html>
+
+EOF;
+}
+
 ?>

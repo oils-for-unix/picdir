@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('lib.php');
 
 // NOTE: assert_options() is deprecated
 
@@ -36,6 +36,11 @@ function test_functions() {
 
   // echo sanitize('my dir/bar.jpg') . "\n";
   assert(sanitize('my dir/bar.jpg') === 'my_dir_bar.jpg');
+
+  assert(sanitize('!@#') === '___');
+
+  html_header();
+  html_footer();
 
   // Don't use the second argument
   // assert(1 === 0, 'bad');
