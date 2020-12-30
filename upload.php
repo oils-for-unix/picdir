@@ -11,6 +11,15 @@
 
 include('config.php');
 
+if ($HASHED_PASSWORD) {
+  if (!password_verify($_POST['password'], $HASHED_PASSWORD)) {
+    header('content-type: text/html; charset=utf-8', true, 403);
+    exit('Invalid password');
+  }
+} else {
+  error_log('Allowing upload without password');
+}
+
 // Default header (for errors)
 header('content-type: text/html; charset=utf-8', true, 400);
 
@@ -33,7 +42,7 @@ $filename = $_FILES['image']['name'];
 
 // Safe for HTML
 $new_filename = unique_id() . '__' . sanitize($filename);
-$upload_path  = "$upload_dir/$new_filename";
+$upload_path  = "$UPLOAD_DIR/$new_filename";
 
 error_log("$tmp_name -> $upload_path");
 

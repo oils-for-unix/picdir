@@ -34,7 +34,7 @@ if (! isset($name)) {
   exit("Expected name= param\n");
 }
 
-$orig_path = "$upload_dir/$name";
+$orig_path = "$UPLOAD_DIR/$name";
 
 if (! isset($max_width)) {
   // relative path is the URL
@@ -82,7 +82,7 @@ if ($orig_width <= $max_width) {
   exit();
 }
 
-$resized_path = "$resized_dir/w{$max_width}__$name";
+$resized_path = "$RESIZED_DIR/w{$max_width}__$name";
 
 if (!file_exists($resized_path)) {
   $scale = $max_width / $orig_width;

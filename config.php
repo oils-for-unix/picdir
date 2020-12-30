@@ -3,15 +3,18 @@
 // dirs.
 
 // TODO: Assert that they're both relative?
-$upload_dir = getenv('PICDIR_UPLOAD_DIR');
-if ($upload_dir === false) {
-  $upload_dir = 'upload';
+$UPLOAD_DIR = getenv('PICDIR_UPLOAD_DIR');
+if ($UPLOAD_DIR === false) {
+  $UPLOAD_DIR = 'upload';
 }
 
-$resized_dir = getenv('PICDIR_RESIZED_DIR');
-if ($resized_dir === false) {
-  $resized_dir = 'resized';
+$RESIZED_DIR = getenv('PICDIR_RESIZED_DIR');
+if ($RESIZED_DIR === false) {
+  $RESIZED_DIR = 'resized';
 }
+
+$HASHED_PASSWORD = file_get_contents('password');
+// $HASHED_PASSWORD may be false
 
 // TODO: Password here to avoid DoS with disk space, or do it on the server
 // level?

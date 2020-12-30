@@ -28,11 +28,24 @@ serve() {
   php -S localhost:8991
 }
 
+hash-password() {
+  local pass=$1
+  local out=${2:-password}
+  php hash_password.php "$pass" > $out
+}
+
 deploy() {
   local name=$1
+  local password=${2:-}
 
   local host=$name@$name.org
   local dir=$name.org/picdir
+
+  # Different password for each host
+  if test -n "$password"; then
+    hash-password "$password" _tmp/password
+    scp _tmp/password $host:$dir
+  fi
 
   # Matches default in config.php
   ssh $host mkdir -v -p $dir/{upload,resized}

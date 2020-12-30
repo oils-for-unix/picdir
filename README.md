@@ -25,3 +25,10 @@ A small program that receives upload images and allows resizing at serving time.
 - JavaScript drag and drop.  This would be nice but looks complex, a lot of
   code:
   - <https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/>
+
+## Configuration
+
+If the file `password` exists, it should contain a password hashed with PHP's
+`password_hash()`.  The app will require a password to upload a picture.
+
+

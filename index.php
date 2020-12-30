@@ -12,11 +12,18 @@ echo <<<EOF
       <td>Image</td>
       <td><input type="file" name="image" /></td>
     </tr>
+EOF;
 
+if ($HASHED_PASSWORD) {
+  echo <<<EOF
     <tr>
       <td>Password</td>
       <td><input type="password" name="password" /></td>
     </tr>
+EOF;
+}
+
+echo <<<EOF
     <tr>
       <td></td>
       <td><input type="submit" value="Upload" /></td>
@@ -47,7 +54,7 @@ function scan_dir($dir) {
 }
 
 $i = 0;
-foreach (scan_dir($upload_dir) as $file) {
+foreach (scan_dir($UPLOAD_DIR) as $file) {
   // sanitized on the file system
   $url = "resize.php?name=$file&max-width=400";
   echo <<<EOF
