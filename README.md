@@ -1,13 +1,29 @@
 picdir
 ======
 
-A small program that receives upload images and allows resizing at serving time.
+A simple web service that allows you to upload an image and then link to a
+dynamically-resized version of it.
+
+## Configuration
+
+- If the file `password` exists, it should contain a password hashed with PHP's
+  `password_hash()`.  The app will require a password to upload a picture.
+- Because of the way `router.php` and `.htaccess` work, it should be hosted at
+  `https://www.example.com/picdir/`.
 
 ## Files
 
+- `router.php`: Used to get rid of `.php` extensions.  Passed to the PHP dev
+  server, AND runs in production via `.htaccess`.
+- `index.php`: The home page.
 - `upload.php`: Upload an image and store it with a unique filename.
-  - need optional password
-- `resize.php`: Request a resized version of an image.
+- `resize.php`: Request a resized version of an image.  Computes it, and then
+  redirects to a static file.
+
+## Data
+
+- `uploads/`: Where user data is stored.
+- `resized/`: Where resized images are cached.
 
 ## Ideas
 
@@ -19,16 +35,9 @@ A small program that receives upload images and allows resizing at serving time.
   - Or use a free tier of an API?
 - Support multiple uploads on a page, or many in an e-mail?
 
-
 ## Links
 
 - JavaScript drag and drop.  This would be nice but looks complex, a lot of
   code:
   - <https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/>
-
-## Configuration
-
-If the file `password` exists, it should contain a password hashed with PHP's
-`password_hash()`.  The app will require a password to upload a picture.
-
 

@@ -25,14 +25,15 @@ header('content-type: text/html; charset=utf-8', true, 400);
 
 // name= params from upload.php will already be sanitized, but we must sanitize
 // it again.
-$name = sanitize($_GET['name']);
+$name = $_GET['name'];
+if (!isset($name)) {
+  exit("Expected name= param\n");
+}
+$name = sanitize($name);
+
 $max_width = $_GET['max-width'];
 
 error_log("resize.php $name");
-
-if (! isset($name)) {
-  exit("Expected name= param\n");
-}
 
 $orig_path = "$UPLOAD_DIR/$name";
 

@@ -25,7 +25,7 @@ export PICDIR_RESIZED_DIR="_resized"
 
 serve() {
   mkdir -p $PICDIR_UPLOAD_DIR $PICDIR_RESIZED_DIR
-  php -S localhost:8991
+  php -S localhost:8991 router.php
 }
 
 hash-password() {
@@ -48,9 +48,9 @@ deploy() {
   fi
 
   # Matches default in config.php
-  ssh $host mkdir -v -p $dir/{upload,resized}
+  ssh $host mkdir -v -p $dir/{uploads,resized}
 
-  scp *.php *.css $host:$dir
+  scp .htaccess *.php *.css $host:$dir
 }
 
 unit-tests() {

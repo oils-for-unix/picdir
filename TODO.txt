@@ -1,6 +1,3 @@
-- Respect upload password
-  - copy htpasswd script from panwiki I think
-
 - Add stats about /resized/ and /upload/ dirs
 
 - BACKUP BOTH /upload/ and /resized/
@@ -12,17 +9,6 @@
 
 - write integration tests with curl
 
-- index.php router
-  - checks file in current dir
-  - https://www.taniarascia.com/the-simplest-php-router/
-    - but we have to be careful not to mess with .css files, etc.
-    - Just do stuff with no extensions
-
 - Don't expose every file
-  lib/
-    functions.php -- rename config.php
-    header.php
-    footer.php
-    meh not sure how much this matters either?
-
-- README.md: Link to JS drag and drop blog post -- not going to do this though.
+  - no: lib.php, lib_test.php, hash_password.php
+  - yes: index.php, upload.php resize.php

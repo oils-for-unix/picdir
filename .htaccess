@@ -1,0 +1,9 @@
+# Assumes that it's deployed at /picdir/
+RewriteEngine On
+RewriteBase /picdir/
+
+# Our rewrites are limited, e.g. picdir.css doesn't match
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^([a-z]+)$ router.php

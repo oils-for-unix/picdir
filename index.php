@@ -6,7 +6,7 @@ html_header();
 echo <<<EOF
 <h1>picdir</h1>
 
-<form action="upload.php" method="post" enctype="multipart/form-data">
+<form action="upload" method="post" enctype="multipart/form-data">
   <table>
     <tr>
       <td>Image</td>
@@ -39,11 +39,14 @@ EOF;
 # https://stackoverflow.com/questions/11923235/scandir-to-sort-by-date-modified
 
 function scan_dir($dir) {
-  $ignored = array('.', '..', '.svn', '.htaccess');
+  $ignored = array('.', '..');
 
   $files = array();    
   foreach (scandir($dir) as $file) {
-    if (in_array($file, $ignored)) continue;
+    // TODO: match extensions instead
+    if (in_array($file, $ignored)) {
+      continue;
+    }
     $files[$file] = filemtime($dir . '/' . $file);
   }
 
@@ -56,10 +59,11 @@ function scan_dir($dir) {
 $i = 0;
 foreach (scan_dir($UPLOAD_DIR) as $file) {
   // sanitized on the file system
-  $url = "resize.php?name=$file&max-width=400";
+  $url = "resize?name=$file&max-width=400";
+  $orig_url = "$UPLOAD_DIR/$file";
   echo <<<EOF
 <p> 
-  <code> <a href="$url">$file</a> </code> <br/>
+  <code> <a href="$url">$file</a> </code> (<a href="$orig_url">original</a>) <br/>
   <img src="$url">
 </p>
 EOF;
@@ -70,7 +74,7 @@ EOF;
   }
 }
 
-# And then <img src="resize.php?name=$name&max-width=100"> for small thumbnails
+# And then <img src="resize?name=$name&max-width=100"> for small thumbnails
 
 html_footer();
 ?>

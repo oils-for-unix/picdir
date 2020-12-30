@@ -48,8 +48,8 @@ error_log("$tmp_name -> $upload_path");
 
 move_uploaded_file($tmp_name, $upload_path );
 
-$example = "resize.php?name=$new_filename&max-width=600";
-// $example2 = "resize.php?name=$new_filename";
+$example = "resize?name=$new_filename&max-width=600";
+// $example2 = "resize?name=$new_filename";
 
 header("Content-type: text/html", $replace = true, 200);
 
