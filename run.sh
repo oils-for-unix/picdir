@@ -37,20 +37,21 @@ hash-password() {
 deploy() {
   local name=$1
   local password=${2:-}
+  local host=${3:-$name.org}
 
-  local host=$name@$name.org
-  local dir=$name.org/picdir
+  local login=$name@$host
+  local dir=$host/picdir
+
+  # Matches default in config.php
+  ssh $login mkdir -v -p $dir/{uploads,resized}
 
   # Different password for each host
   if test -n "$password"; then
     hash-password "$password" _tmp/password
-    scp _tmp/password $host:$dir
+    scp _tmp/password $login:$dir
   fi
 
-  # Matches default in config.php
-  ssh $host mkdir -v -p $dir/{uploads,resized}
-
-  scp .htaccess *.php *.css $host:$dir
+  scp .htaccess *.php *.css $login:$dir
 }
 
 unit-tests() {
