@@ -1,12 +1,3 @@
-- publish on Github
-  - link to it
-- Add some text:
-  - "resizes and serves your images"
-  - slogans
-    - "resizes and serves your images"
-  - "Redirects to a static file"
-  - "Return to home page"
-
 - Deletion?  Would require a password.
 
 - Add stats about /resized/ and /upload/ dirs

@@ -54,6 +54,11 @@ function html_header() {
     <link rel="stylesheet" type="text/css" href="picdir.css" />
   </head>
   <body>
+    <p>
+      <span id="picdir-header"><a href="https://github.com/oilshell/picdir">picdir</a></span>
+      serves dynamically resized images.
+    </p>
+    <hr/>
 
 EOF;
 }

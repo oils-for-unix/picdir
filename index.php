@@ -4,8 +4,6 @@ include('lib.php');
 html_header();
 
 echo <<<EOF
-<h1>picdir</h1>
-
 <form action="upload" method="post" enctype="multipart/form-data">
   <table>
     <tr>

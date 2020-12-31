@@ -55,20 +55,17 @@ header("Content-type: text/html", $replace = true, 200);
 
 html_header();
 
-// TODO: Show image size, etc.
+// TODO: Show original image size, etc.
 echo <<<EOF
-
-<h1><a href=".">picdir</a></h1>
-
-<p>Image saved!</p>
-
-<h2>Original</h2>
-
-<code><a href="$upload_path">$upload_path</a></code>
+<p>Saved <code><a href="$upload_path">$upload_path</a></code></p>
 
 <h2>Resize it with a URL like this</h2>
 
-<code><a href="$example">$example</a></code>
+<code><a href="$example">$example</a></code> (redirects to a static file)
+
+<hr/>
+
+<p><a href=".">Back to home page</a></p>
 
 <!--
 <p>

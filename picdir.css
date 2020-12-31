@@ -13,6 +13,11 @@ body {
   font-family: sans-serif;
 }
 
+#picdir-header {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
 /* Remove underline */
 a:link {
   text-decoration: none;
@@ -36,3 +41,4 @@ input {
 td {
   padding: 0.5em;
 }
+
