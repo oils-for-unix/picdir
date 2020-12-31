@@ -59,9 +59,10 @@ foreach (scan_dir($UPLOAD_DIR) as $file) {
   // sanitized on the file system
   $url = "resize?name=$file&max-width=400";
   $orig_url = "$UPLOAD_DIR/$file";
+  $kilobytes = number_format(round(filesize($orig_url) / 1000));
   echo <<<EOF
 <p> 
-  <code> <a href="$url">$file</a> </code> (<a href="$orig_url">original</a>) <br/>
+  <code> <a href="$url">$file</a> </code> (<a href="$orig_url">original</a> is $kilobytes KB) <br/>
   <img src="$url">
 </p>
 EOF;
