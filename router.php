@@ -15,10 +15,10 @@ if (strpos($path, '/picdir') === 0) {
 }
 // error_log("path = $path");
 
-// /upload, /resize -> $1.php
-// We don't have to worry about index.php.
+// /upload, /resize -> $1.php  This matches the rewrite in .htaccess.
+// Note: index.php is automatically mapped to /
 $matches = array();
-if (preg_match('/^\/([a-z]+)$/', $path, $matches)) {
+if (preg_match('/^\/([a-z_\-]+)$/', $path, $matches)) {
   $name = $matches[1];
   $script = "$name.php";
   if (file_exists($script)) {

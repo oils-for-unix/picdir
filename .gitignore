@@ -1,4 +1,5 @@
+_*
 .*.swp
 .php_cs.cache
 tools/
-local.sh
+private.sh

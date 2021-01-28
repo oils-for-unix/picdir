@@ -8,7 +8,7 @@ echo <<<EOF
   <table>
     <tr>
       <td>Image</td>
-      <td><input type="file" name="image" /></td>
+      <td><input type="file" name="images[]" multiple="multiple"/></td>
     </tr>
 EOF;
 
@@ -68,7 +68,7 @@ foreach (scan_dir($UPLOAD_DIR) as $file) {
 EOF;
 
   $i++;
-  if ($i === 10) {
+  if ($i === 30) {
     break;
   }
 }

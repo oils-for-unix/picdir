@@ -1,7 +1,7 @@
 <?php
 // upload.php
 //
-// Upload an image and save it to
+// Upload a list of images and save them to
 //
 //   picdir/upload/${unique_id}__$[sanitize(ORIG)].jpg
 //
@@ -23,56 +23,66 @@ if ($HASHED_PASSWORD) {
 // Default header (for errors)
 header('content-type: text/html; charset=utf-8', true, 400);
 
-// Check if file was uploaded
-if (! isset($_FILES['image'])) {
-  exit('Expected image=');
+// Check if images were uploaded
+if (! isset($_FILES['images'])) {
+  exit('Expected images=');
 }
 
-$tmp_name = $_FILES['image']['tmp_name'];
-if (! is_uploaded_file($tmp_name)) {
-  exit('Expected image= to be a file');
+// The form has multiple="multiple"
+$num_files = count($_FILES['images']['name']);
+
+$body = '';
+
+// Loop through each file
+for ($i = 0; $i < $num_files; $i++) {
+
+  $tmp_name = $_FILES['images']['tmp_name'][$i];
+
+  if (! is_uploaded_file($tmp_name)) {
+    exit('Expected image= to be a file');
+  }
+
+  $error = $_FILES['images']['error'][$i];
+  if ($error !== UPLOAD_ERR_OK) {
+    exit("Upload failed with error $error");
+  }
+
+  $filename = $_FILES['images']['name'][$i];
+  // Check if images were uploaded
+  if (! isset($filename)) {
+    exit('Expected image name');
+  }
+
+  $new_filename = unique_id() . '__' . sanitize($filename);
+  $upload_path  = "$UPLOAD_DIR/$new_filename";
+
+  error_log("$tmp_name -> $upload_path");
+  move_uploaded_file($tmp_name, $upload_path);
+
+  $example = "resize?name=$new_filename&max-width=600";
+
+  // Append a snippet to the body.
+  // TODO: Show original image size, etc.
+  $body .= <<<EOF
+  <p>Saved <code><a href="$upload_path">$upload_path</a></code></p>
+
+  <h2>Resize it with a URL like this</h2>
+
+  <code><a href="$example">$example</a></code> (redirects to a static file)
+
+  <hr/>
+
+EOF;
+
 }
-
-$error = $_FILES['image']['error'] ;
-if ($error !== UPLOAD_ERR_OK) {
-  exit("Upload failed with error $error");
-}
-
-$filename = $_FILES['image']['name'];
-
-// Safe for HTML
-$new_filename = unique_id() . '__' . sanitize($filename);
-$upload_path  = "$UPLOAD_DIR/$new_filename";
-
-error_log("$tmp_name -> $upload_path");
-
-move_uploaded_file($tmp_name, $upload_path );
-
-$example = "resize?name=$new_filename&max-width=600";
-// $example2 = "resize?name=$new_filename";
 
 header("Content-type: text/html", $replace = true, 200);
 
 html_header();
 
-// TODO: Show original image size, etc.
-echo <<<EOF
-<p>Saved <code><a href="$upload_path">$upload_path</a></code></p>
+echo($body);
 
-<h2>Resize it with a URL like this</h2>
-
-<code><a href="$example">$example</a></code> (redirects to a static file)
-
-<hr/>
-
-<p><a href=".">Back to home page</a></p>
-
-<!--
-<p>
-Plain: <code><a href="$example2">$example2</a></code>
--->
-
-EOF;
+echo('<p><a href=".">Back to home page</a></p>');
 
 html_footer();
 

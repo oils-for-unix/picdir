@@ -6,4 +6,4 @@ RewriteBase /picdir/
 # RewriteCond %{REQUEST_FILENAME} !-d
 # RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule ^([a-z]+)$ router.php
+RewriteRule ^([a-z_\-]+)$ router.php
