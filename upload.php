@@ -59,6 +59,8 @@ for ($i = 0; $i < $num_files; $i++) {
   error_log("$tmp_name -> $upload_path");
   move_uploaded_file($tmp_name, $upload_path);
 
+  // TODO: Add redirect=0 or redirect=1 to avoid redirection, which allow you
+  // to copy and paste
   $example = "resize?name=$new_filename&max-width=600";
 
   // Append a snippet to the body.
@@ -66,9 +68,34 @@ for ($i = 0; $i < $num_files; $i++) {
   $body .= <<<EOF
   <p>Saved <code><a href="$upload_path">$upload_path</a></code></p>
 
-  <h2>Resize it with a URL like this</h2>
+  <p><b>Serve small (and rotated) versions with URLs like this:</b></p>
 
   <code><a href="$example">$example</a></code> (redirects to a static file)
+
+  <form action="resize" method="GET">
+    <table>
+      <tr>
+        <td>Image Name</td>
+        <td><input type="text" name="name" value="$new_filename" /></td>
+      </tr>
+
+      <tr>
+        <td>Max Width</td>
+        <td><input type="text" name="max-width" value="600" /></td>
+      </tr>
+
+      <tr>
+        <td>Rotation</td>
+        <td><input type="text" name="rotation"/></td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td><input type="submit" value="Show Image" /></td>
+      </tr>
+    </table>
+
+  </form>
 
   <hr/>
 

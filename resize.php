@@ -32,6 +32,12 @@ if (!isset($name)) {
 $name = sanitize($name);
 
 $max_width = $_GET['max-width'];
+$rotation = $_GET['rotation'];
+if (isset($rotation)) {
+  $rotation = floatval($rotation);
+} else {
+  $rotation = 0;
+}
 
 error_log("resize.php $name");
 
@@ -60,30 +66,42 @@ if ($image === false) {
   exit('Invalid image');
 }
 
-$exif = exif_read_data($orig_path);
-$orientation = $exif['Orientation'];
-switch ($orientation) {
-  case 3:
-    $image = imagerotate($image, 180, 0);
-    break;
-  case 6:
-    $image = imagerotate($image, -90, 0);
-    break;
-  case 8:
-    $image = imagerotate($image, 90, 0);
-    break;
+# iOS bug on resizing!
+#
+# https://stackoverflow.com/questions/66661973/iphone-os-image-photo-resizing-tool-changing-exif-orientation-data
+#
+# To work around this, we have a &rotation=90 param, and use that as part of
+# the cache key.
+
+if ($rotation != 0) {
+  $image = imagerotate($image, $rotation, 0);
+} else {
+  $exif = exif_read_data($orig_path);
+  $orientation = $exif['Orientation'];
+  switch ($orientation) {
+    case 3:
+      $image = imagerotate($image, 180, 0);
+      break;
+    case 6:
+      $image = imagerotate($image, -90, 0);
+      break;
+    case 8:
+      $image = imagerotate($image, 90, 0);
+      break;
+  }
 }
 
 $orig_width = imagesx($image);
 $orig_height = imagesy($image);
 
-if ($orig_width <= $max_width) {
+// No resizing necessary
+if ($rotation == 0 && $orig_width <= $max_width) {
   // relative path is the URL
   header('Location: ' . $orig_path);
   exit();
 }
 
-$resized_path = "$RESIZED_DIR/w{$max_width}__$name";
+$resized_path = "$RESIZED_DIR/w{$max_width}__r{$rotation}__$name";
 
 if (!file_exists($resized_path)) {
   $scale = $max_width / $orig_width;
@@ -95,9 +113,6 @@ if (!file_exists($resized_path)) {
   $resized = imagecreatetruecolor($new_width, $new_height);
 
   // Resample old into new
-
-  // TODO:
-  // - Respect EXIF orientation data.
 
   imagecopyresampled(
     $resized,
