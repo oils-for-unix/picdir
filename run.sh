@@ -51,7 +51,7 @@ deploy() {
     scp _tmp/password $login:$dir
   fi
 
-  scp .htaccess *.php *.css $login:$dir
+  rsync --archive --verbose .htaccess *.php *.css $login:$dir/
 }
 
 unit-tests() {
