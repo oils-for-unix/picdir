@@ -62,7 +62,10 @@ foreach (scan_dir($UPLOAD_DIR) as $file) {
   $kilobytes = number_format(round(filesize($orig_url) / 1000));
   echo <<<EOF
 <p> 
-  <code> <a href="$url">$file</a> </code> (<a href="$orig_url">original</a> is $kilobytes KB) <br/>
+  <code> <a href="$url">$file</a> </code>
+    ( <a href="$orig_url">original</a> is $kilobytes KB, 
+      <a href="form.php?filename=$file">form</a>)
+    <br/>
   <img src="$url">
 </p>
 EOF;

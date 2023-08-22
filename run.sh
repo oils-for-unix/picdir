@@ -20,6 +20,12 @@ deps() {
   # sudo apt install php-xml
 }
 
+# 2023-08 Debian: I think this is causing a problem
+find-php-ini-max() {
+  # upload_max_filesize = 2M
+  grep upload_max /etc/php/8.2/apache2/php.ini 
+}
+
 export PICDIR_UPLOAD_DIR="_upload"
 export PICDIR_RESIZED_DIR="_resized"
 

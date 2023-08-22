@@ -30,6 +30,7 @@ if (! isset($_FILES['images'])) {
 
 // The form has multiple="multiple"
 $num_files = count($_FILES['images']['name']);
+// error_log("num files $num_files");
 
 $body = '';
 
@@ -37,9 +38,10 @@ $body = '';
 for ($i = 0; $i < $num_files; $i++) {
 
   $tmp_name = $_FILES['images']['tmp_name'][$i];
+  // error_log("uploaded file $tmp_name");
 
   if (! is_uploaded_file($tmp_name)) {
-    exit('Expected image= to be a file');
+    exit('Expected images= to be a file (dev server rejected big file?)');
   }
 
   $error = $_FILES['images']['error'][$i];
