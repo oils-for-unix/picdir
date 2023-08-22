@@ -40,9 +40,11 @@ hash-password() {
   php hash_password.php "$pass" > $out
 }
 
+# private.sh from home-admin/private
+
 deploy() {
   local name=$1
-  local password=${2:-}
+  local app_password=${2:-}
   local host=${3:-$name.org}
 
   local login=$name@$host
@@ -51,9 +53,10 @@ deploy() {
   # Matches default in config.php
   ssh $login mkdir -v -p $dir/{uploads,resized}
 
-  # Different password for each host
-  if test -n "$password"; then
-    hash-password "$password" _tmp/password
+  # Different app_password for each host
+  if test -n "$app_password"; then
+    mkdir -p _tmp
+    hash-password "$app_password" _tmp/password
     scp _tmp/password $login:$dir
   fi
 
