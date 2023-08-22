@@ -31,6 +31,9 @@ if (!isset($name)) {
 }
 $name = sanitize($name);
 
+// Serve through PHP so you can copy the URL
+$serve_slowly = $_GET['serve-slowly-through-php'];
+
 $max_width = $_GET['max-width'];
 $rotation = $_GET['rotation'];
 if (isset($rotation)) {
@@ -137,6 +140,25 @@ if (!file_exists($resized_path)) {
   rename($tmp_path, $resized_path);
 } else {
   error_log("resize.php using $resized_path");
+}
+
+if (isset($serve_slowly)) {
+  $size = filesize($resized_path);
+  header("content-length: $size");
+
+  $image_type = exif_imagetype($resized_path);
+  $mime_type = image_type_to_mime_type($image_type);
+  header("content-type: $mime_type");
+
+  $f = fopen($resized_path, 'rb');
+
+  // Just do the whole thing at once, since the image is supposed to be small
+  // now!
+  echo fread($f, $size);
+
+  fclose($f);
+
+  exit();
 }
 
 header('Location: ' . $resized_path);

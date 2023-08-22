@@ -27,6 +27,11 @@ $body = <<<EOF
       </tr>
 
       <tr>
+        <td>Serve Slowly Through PHP (to copy URL)</td>
+        <td><input type="checkbox" name="serve-slowly-through-php" value="1"/></td>
+      </tr>
+
+      <tr>
         <td></td>
         <td><input type="submit" value="Show Image" /></td>
       </tr>
