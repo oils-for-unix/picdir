@@ -64,7 +64,7 @@ foreach (scan_dir($UPLOAD_DIR) as $file) {
 <p> 
   <code> <a href="$url">$file</a> </code>
     ( <a href="$orig_url">original</a> is $kilobytes KB, 
-      <a href="form.php?filename=$file">form</a>)
+      <a href="form?filename=$file">form</a>)
     <br/>
   <img src="$url">
 </p>

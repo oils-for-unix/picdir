@@ -74,30 +74,9 @@ for ($i = 0; $i < $num_files; $i++) {
 
   <code><a href="$example">$example</a></code> (redirects to a static file)
 
-  <form action="resize" method="GET">
-    <table>
-      <tr>
-        <td>Image Name</td>
-        <td><input type="text" name="name" value="$new_filename" /></td>
-      </tr>
-
-      <tr>
-        <td>Max Width</td>
-        <td><input type="text" name="max-width" value="600" /></td>
-      </tr>
-
-      <tr>
-        <td>Rotation</td>
-        <td><input type="text" name="rotation"/></td>
-      </tr>
-
-      <tr>
-        <td></td>
-        <td><input type="submit" value="Show Image" /></td>
-      </tr>
-    </table>
-
-  </form>
+  <p>
+    <a href="form?filename=$new_filename">Use the form to construct a URL</a>
+  </p>
 
   <hr/>
 
