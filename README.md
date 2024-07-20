@@ -44,4 +44,5 @@ It's a useful tool for self-hosted blogs and documentation.
   - <https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/>
 - [CImage and img.php](https://cimage.se/): *server-side resize, crop and
   processing of images using PHP GD*.
+- Comment on picdir: <https://lobste.rs/s/nmvcdk/why_bloat_is_still_software_s_biggest#c_c1t7ho>
 
